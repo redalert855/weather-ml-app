@@ -1,0 +1,14 @@
+# Virtual environments
+flaskappenv/
+venv/
+.venv/
+env/
+
+# Byte-code and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables
+.env
+EOT
