@@ -1,0 +1,30 @@
+---
+- name: Prepare Kubernetes on the production instance
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Download and install Minikube
+      become: true
+      ansible.builtin.get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /usr/local/bin/minikube
+        mode: '0755'
+
+    - name: Start Minikube with Docker
+      ansible.builtin.command: minikube start --driver=docker
+
+    - name: Install kubectl using Snap
+      become: true
+      ansible.builtin.command: snap install kubectl --classic
+      args:
+        creates: /snap/bin/kubectl
+
+    - name: Check the kubectl client version
+      ansible.builtin.command: /snap/bin/kubectl version --client
+      changed_when: false
+
+    - name: Wait for the Kubernetes node to be ready
+      ansible.builtin.command: >-
+        /snap/bin/kubectl wait --for=condition=Ready node --all --timeout=180s
+      changed_when: false
