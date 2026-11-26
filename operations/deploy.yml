@@ -16,5 +16,5 @@
 
     - name: Wait for the Deployment to be ready
       shell:
-        cmd: minikube kubectl -- rollout status deployment/weather-ml-app --timeout=300s
+        cmd: minikube kubectl -- rollout status deployment/weather-app --timeout=300s
       changed_when: false
