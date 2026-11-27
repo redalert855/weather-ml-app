@@ -1,0 +1,20 @@
+---
+- name: Deploy the weather app
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Deploy the Docker Hub image with two replicas
+      shell:
+        cmd: minikube kubectl -- apply -f k8s/deployment.yaml
+        chdir: "{{ playbook_dir }}/.."
+
+    - name: Create the weather app Service
+      shell:
+        cmd: minikube kubectl -- apply -f k8s/service.yaml
+        chdir: "{{ playbook_dir }}/.."
+
+    - name: Wait for the Deployment to be ready
+      shell:
+        cmd: minikube kubectl -- rollout status deployment/weather-app --timeout=300s
+      changed_when: false
