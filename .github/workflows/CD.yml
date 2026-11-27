@@ -19,5 +19,5 @@ jobs:
       - name: Roll out new image (zero downtime)
         run: |
           kubectl set image deployment/weather-app \
-            weather-app=redalert855/weather_app:v1
+            weather-app=redalert855/weather_app:v2
           kubectl rollout status deployment/weather-app --timeout=120s
